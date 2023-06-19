@@ -1,0 +1,41 @@
+Syntax OK, basic expr
+Result: 10
+
+Syntax OK, basic expr
+Result: 25
+
+Syntax OK, basic expr
+Result: 150
+
+Syntax OK, basic expr
+Result: 30
+
+Syntax OK, basic expr
+Result: 1000
+
+Syntax OK,GCD: 12
+
+Syntax OK,GCD: 2
+
+Syntax OK,GCD: 6
+
+Syntax OK,GCD: 7
+
+Syntax OK,GCD: 4
+
+Syntax OK,GCD: 8
+
+Syntax OK,GCD: 1
+
+Syntax OK, 
+Common Divisors Count: 12
+
+Syntax OK, 
+Common Divisors Count: 4
+
+Syntax OK, 
+Common Divisors Count: 8
+
+Syntax OK, 
+Common Divisors Count: 4
+

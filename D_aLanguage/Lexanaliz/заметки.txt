@@ -1,0 +1,58 @@
+* %%
+[1-9][0-9]*   {
+    int number = atoi(yytext);
+    printf("Zadane cislo: %d\n", number);
+    if (isPrime(number)) {
+        printf("Cislo (%d) je prvocislo.\n", number);
+    } else {
+        printf("Cislo (%d) je slozene.\n", number);
+    }
+}
+0[0-9]*   { printf("Error: Number cannot start with zero.\n"); }
+NSD\(([0-9]+),([0-9]+)\)   { printf("NSD cisel: (%s, %s)\n", yytext + 5, yytext + 7); }
+SD\(([0-9]+),([0-9]+)\)   { printf("SD cisel: (%s, %s)\n", yytext + 4, yytext + 6); }
+
+NSD\(([0-9]+),[^)]*\)   { printf("Error: Missing closing parenthesis in NSD expression.\n"); }
+NSD[^)]*\)   { printf("Error: Missing opening parenthesis in NSD expression.\n"); }
+NSD\([0-9]+,[0-9]+\   { printf("Error: Incomplete NSD expression.\n"); }
+
+SD\([0-9]+,[0-9]+\   { printf("Error: Incomplete SD expression.\n"); }
+SD[^)]*\)   { printf("Error: Missing opening parenthesis in SD expression.\n"); }
+SD\(([0-9]+),[^)]*\)   { printf("Error: Missing closing parenthesis in SD expression.\n"); }
+%%
+
+int NSD(int a, int b) {
+    while (a != b) {
+        if (a > b)
+            a = a - b;
+        else
+            b = b - a;
+    }
+    return a;
+}
+
+int SD(int a, int b) {
+    int temp;
+    while (b != 0) {
+        temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+bool isPrime(int n) {
+    if (n <= 1)
+        return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
+
+int main() {
+    yylex();
+    return 0;
+} 
+*/
