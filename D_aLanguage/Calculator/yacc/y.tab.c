@@ -40,27 +40,30 @@ firstdigit = ’1’ | ’2’ | ’3’ | ’4’ | ’5’ | ’6’ | ’7’
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 
 int yylex();
 void yyerror(const char *s);
 extern int yylineno;
+int is_prime(int a);
 int gcd(int a, int b);
 int gcd_3(int a, int b, int c);
 int count_common_divisors(int a, int b);
 int count_common_divisors_3(int a, int b, int c);
+double sqrt_custom(double number);
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-#line 41 "detector.y"
+#line 44 "detector.y"
 typedef union YYSTYPE {
     int integer;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 64 "y.tab.c"
+#line 67 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -337,13 +340,25 @@ static YYINT  *yylexp = 0;
 
 static YYINT  *yylexemes = 0;
 #endif /* YYBTYACC */
-#line 91 "detector.y"
+#line 112 "detector.y"
 
 void yyerror(const char* s) {   
     printf("%s\n", s);
 }
 
+int is_prime(int a) {
+    if (a <= 1) return 0; // 0 and 1 are not prime numbers
+    if (a == 2) return 1; // 2 is a prime number
+    if (a % 2 == 0) return 0; // All other even numbers are not primes
+    for(int i = 3; i <= sqrt_custom(a); i+=2) {
+        if (a % i == 0 )
+            return 0;
+    }
+    return 1;
+}
+
 int gcd(int a, int b) {
+
     if (b == 0) {
         return a;
     }
@@ -351,6 +366,14 @@ int gcd(int a, int b) {
 }
 
 int gcd_3(int a, int b, int c) {
+    // Check if a, b or c is prime
+    if (is_prime(a) || is_prime(b) || is_prime(c)) {
+        printf("At least one of %d, %d, and %d is a prime number.\n", a, b, c);
+    } else {
+        printf("None of %d, %d, and %d are prime numbers.\n", a, b, c);
+    }
+
+    // Compute the gcd
     return gcd(gcd(a, b), c);
 }
 
@@ -374,11 +397,23 @@ int count_common_divisors_3(int a, int b, int c) {
     }
     return count;
 }
+
+double sqrt_custom(double number) {
+    double error = 1e-7; // Define the precision of your answer
+    double s = number;
+
+    while ((s - number / s) > error) {
+        s = (s + number / s) / 2;
+    }
+
+    return s;
+}
+
 int main() {
     yyparse();
     return 0;
 }
-#line 382 "y.tab.c"
+#line 417 "y.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1049,67 +1084,85 @@ yyreduce:
     switch (yyn)
     {
 case 4:
-#line 55 "detector.y"
+#line 58 "detector.y"
 	{ 
+        int a = yystack.l_mark[-1].integer;
         printf("Syntax OK, basic expr\n");
-        printf("Result: %d\n\n", yystack.l_mark[-1].integer);
-        }
-#line 1058 "y.tab.c"
+        printf("Result: %d\n\n", a);
+        if (is_prime(a)) {
+        printf("%d is a prime number.\n", a);
+        } else {
+        printf("%d is not a prime number.\n", a);
+    }
+}
+#line 1099 "y.tab.c"
 break;
 case 7:
-#line 64 "detector.y"
+#line 73 "detector.y"
 	{
         yyval.integer = yystack.l_mark[-2].integer + yystack.l_mark[0].integer;
         }
-#line 1065 "y.tab.c"
+#line 1106 "y.tab.c"
 break;
 case 8:
-#line 67 "detector.y"
+#line 76 "detector.y"
 	{
         yyval.integer = yystack.l_mark[-2].integer * yystack.l_mark[0].integer;
         }
-#line 1072 "y.tab.c"
+#line 1113 "y.tab.c"
 break;
 case 9:
-#line 73 "detector.y"
+#line 82 "detector.y"
 	{
         yyval.integer = yystack.l_mark[0].integer;
         }
-#line 1079 "y.tab.c"
+#line 1120 "y.tab.c"
 break;
 case 10:
-#line 79 "detector.y"
-	{ printf("Syntax OK,");
+#line 88 "detector.y"
+	{ printf("Syntax OK,\n");
                             printf("GCD: %d\n\n", yystack.l_mark[-1].integer); }
-#line 1085 "y.tab.c"
+#line 1126 "y.tab.c"
 break;
 case 11:
-#line 81 "detector.y"
+#line 90 "detector.y"
 	{ printf("Syntax OK, \n");
                             printf("Common Divisors Count: %d\n\n", yystack.l_mark[-1].integer); }
-#line 1091 "y.tab.c"
+#line 1132 "y.tab.c"
 break;
 case 12:
-#line 86 "detector.y"
-	{ yyval.integer = count_common_divisors_3(yystack.l_mark[-4].integer, yystack.l_mark[-2].integer, yystack.l_mark[0].integer); }
-#line 1096 "y.tab.c"
+#line 95 "detector.y"
+	{ yyval.integer = count_common_divisors_3(yystack.l_mark[-4].integer, yystack.l_mark[-2].integer, yystack.l_mark[0].integer); 
+                if (is_prime(yystack.l_mark[-4].integer) || is_prime(yystack.l_mark[-2].integer) || is_prime(yystack.l_mark[0].integer)) {
+                printf("At least one of %d, %d, and %d is a prime number.\n", yystack.l_mark[-4].integer, yystack.l_mark[-2].integer, yystack.l_mark[0].integer);
+                } else {
+                printf("None of %d, %d, and %d are prime numbers.\n", yystack.l_mark[-4].integer, yystack.l_mark[-2].integer, yystack.l_mark[0].integer);
+    }
+    
+    }
+#line 1144 "y.tab.c"
 break;
 case 13:
-#line 87 "detector.y"
+#line 103 "detector.y"
 	{ yyval.integer = gcd_3(yystack.l_mark[-4].integer, yystack.l_mark[-2].integer, yystack.l_mark[0].integer); }
-#line 1101 "y.tab.c"
+#line 1149 "y.tab.c"
 break;
 case 14:
-#line 88 "detector.y"
-	{ yyval.integer = gcd(yystack.l_mark[-2].integer, yystack.l_mark[0].integer); }
-#line 1106 "y.tab.c"
+#line 104 "detector.y"
+	{ yyval.integer = gcd(yystack.l_mark[-2].integer, yystack.l_mark[0].integer); 
+            if (is_prime(yystack.l_mark[-2].integer) || is_prime(yystack.l_mark[0].integer)) {
+            printf("%d and/or %d is a prime number.\n", yystack.l_mark[-2].integer, yystack.l_mark[0].integer);
+            } else {
+            printf("Neither %d nor %d are prime numbers.\n", yystack.l_mark[-2].integer, yystack.l_mark[0].integer);
+            }}
+#line 1159 "y.tab.c"
 break;
 case 15:
-#line 89 "detector.y"
+#line 110 "detector.y"
 	{ yyval.integer = count_common_divisors(yystack.l_mark[-2].integer, yystack.l_mark[0].integer); }
-#line 1111 "y.tab.c"
+#line 1164 "y.tab.c"
 break;
-#line 1113 "y.tab.c"
+#line 1166 "y.tab.c"
     default:
         break;
     }

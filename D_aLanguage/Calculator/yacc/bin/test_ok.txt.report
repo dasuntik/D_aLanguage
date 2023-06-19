@@ -1,41 +1,72 @@
 Syntax OK, basic expr
-Result: 10
+Result: 3
 
+3 is a prime number.
+Syntax OK, basic expr
+Result: 5
+
+5 is a prime number.
+Syntax OK, basic expr
+Result: 19
+
+19 is a prime number.
 Syntax OK, basic expr
 Result: 25
 
+25 is not a prime number.
 Syntax OK, basic expr
 Result: 150
 
+150 is not a prime number.
 Syntax OK, basic expr
 Result: 30
 
+30 is not a prime number.
 Syntax OK, basic expr
 Result: 1000
 
-Syntax OK,GCD: 12
+1000 is not a prime number.
+Neither 24 nor 36 are prime numbers.
+Syntax OK,
+GCD: 12
 
-Syntax OK,GCD: 2
+Neither 98 nor 458 are prime numbers.
+Syntax OK,
+GCD: 2
 
-Syntax OK,GCD: 6
+Neither 90 nor 78 are prime numbers.
+Syntax OK,
+GCD: 6
 
-Syntax OK,GCD: 7
+Neither 14 nor 49 are prime numbers.
+Syntax OK,
+GCD: 7
 
-Syntax OK,GCD: 4
+None of 64, 128, and 248 are prime numbers.
+Syntax OK,
+GCD: 4
 
-Syntax OK,GCD: 8
+None of 132, 198, and 264 are prime numbers.
+Syntax OK,
+GCD: 8
 
-Syntax OK,GCD: 1
+11 and/or 9 is a prime number.
+Syntax OK,
+GCD: 1
 
+Neither 36 nor 48 are prime numbers.
 Syntax OK, 
 Common Divisors Count: 12
 
+Neither 56 nor 68 are prime numbers.
 Syntax OK, 
 Common Divisors Count: 4
 
+None of 132, 198, and 264 are prime numbers.
 Syntax OK, 
 Common Divisors Count: 8
 
+None of 64, 128, and 248 are prime numbers.
 Syntax OK, 
 Common Divisors Count: 4
 
