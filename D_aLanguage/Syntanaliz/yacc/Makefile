@@ -1,52 +1,19 @@
-MAKE=make
-GCC=gcc
+GCC := gcc
+GCC_OPT := Wall
+ASM_OPT := S
 
-FILENAME=detector
+INPUT := detector
+ast: clean
+	@$(GCC) $(INPUT).c -fdump-tree-original-raw
+	pwd
+	@./pre.awk  $(INPUT).c.* | ./tree_viz.awk > tree.dot
+	@dot -Tpng tree.dot -o tree.png
 
-PARSER_BIN="detector_parser"
+dump: clean
+	@$(GCC) $(INPUT).c -fdump-tree-all
 
-ROOT_DIR=$(shell pwd)
-INCDIR=/home/tuatar/Рабочий\ стол/D_aLanguage/Syntanaliz/yacc/inc
-INCFILES=/home/tuatar/Рабочий\ стол/D_aLanguage/Syntanaliz/yacc/inc/prints.c /home/tuatar/Рабочий\ стол/D_aLanguage/Syntanaliz/yacc/inc/prk-stack.c
-#LIBOBJS = $(wildcard $(LIBDIR)/*.o)
-#LIBNAMES = $(shell basename -s ".o" $(LIBOBJS))
-#LIBS = $(addprefix -l, $(LIBNAMES))
-
-BINDIR="./bin"
-TESTDIR="../../testfiles"
-TEST_OK_FILE="test_ok.txt"
-TEST_NOOK_FILE="test_nok.txt"
-
-.PHONY: parser test_ok test_nok subclean clean all
-
-all: clean parser test_ok test_nok
-	@if [ $(PRINT_OUTPUT) ]; then cat $(BINDIR)/$(TEST_OK_FILE).report; fi
-	@if [ $(PRINT_OUTPUT) ]; then cat $(BINDIR)/$(TEST_NOOK_FILE).report; fi
-
-
-test:
-	@echo $(ROOT_DIR)
-	@echo $(LIBOBJS)
-	@echo $(LIBNAMES)
-	@echo $(LIBS)
-
-parser:
-	yacc -d $(FILENAME).y
-	flex $(FILENAME).lex
-	$(GCC) -I$(INCDIR) -c $(INCFILES)
-	$(GCC) -I$(INCDIR) lex.yy.c y.tab.c prints.o prk-stack.o -o $(PARSER_BIN)
-	@mv $(PARSER_BIN) $(BINDIR)/
-#	@make -s subclean
-
-test_ok:
-	@cat "$(TESTDIR)/$(TEST_OK_FILE)" | ./$(BINDIR)/$(PARSER_BIN) > "$(BINDIR)/$(TEST_OK_FILE).report"
-test_nok:
-	@cat "$(TESTDIR)/$(TEST_NOOK_FILE)" | ./$(BINDIR)/$(PARSER_BIN) > "$(BINDIR)/$(TEST_NOOK_FILE).report"
-
-
-subclean:
-	@rm -rf lex.yy.c
-	@rm -rf y.tab.h y.tab.c
-
-clean: subclean
-	@rm -rf $(BINDIR)/*
+clean:
+	@rm -rf *.o        #clean all the object files
+	@rm -rf $(INPUT)     #clean all the binaries
+	@rm -rf $(INPUT).asm    #clean the asm output
+	@rm -rf $(INPUT).c.*    #clean all the syntax trees
