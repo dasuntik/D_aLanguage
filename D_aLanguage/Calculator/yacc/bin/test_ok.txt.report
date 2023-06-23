@@ -2,30 +2,37 @@ Syntax OK, basic expr
 Result: 3
 
 3 is a prime number.
+
 Syntax OK, basic expr
 Result: 5
 
 5 is a prime number.
+
 Syntax OK, basic expr
 Result: 19
 
 19 is a prime number.
+
 Syntax OK, basic expr
 Result: 25
 
 25 is not a prime number.
+
 Syntax OK, basic expr
 Result: 150
 
 150 is not a prime number.
+
 Syntax OK, basic expr
 Result: 30
 
 30 is not a prime number.
+
 Syntax OK, basic expr
 Result: 1000
 
 1000 is not a prime number.
+
 Neither 24 nor 36 are prime numbers.
 Syntax OK,
 GCD: 12

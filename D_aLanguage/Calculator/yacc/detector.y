@@ -60,9 +60,9 @@ expression:
         printf("Syntax OK, basic expr\n");
         printf("Result: %d\n\n", a);
         if (is_prime(a)) {
-        printf("%d is a prime number.\n", a);
+        printf("%d is a prime number.\n\n", a);
         } else {
-        printf("%d is not a prime number.\n", a);
+        printf("%d is not a prime number.\n\n", a);
     }
 }
     | action LINE_END
